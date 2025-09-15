@@ -1,7 +1,9 @@
 * { box-sizing: border-box; }
-html,body { height: 100%; margin: 0; background:#0f0f10; color:#fff; font-family: Inter, Arial, sans-serif; }
-header { padding: 20px; text-align: center; }
-h1 { margin: 0 0 6px 0; letter-spacing: 2px; }
+html, body { margin:0; padding:0; height:100%; background:#0f0f10; color:#fff; font-family: Arial, sans-serif; }
+header { padding:20px; text-align:center; }
+h1 { margin:0; letter-spacing:2px; }
+
+#lista-fichas { margin-top:10px; text-align:left; display:inline-block; }
 
 #cofre-area { display:flex; justify-content:center; align-items:flex-end; padding:30px; }
 
@@ -9,8 +11,6 @@ h1 { margin: 0 0 6px 0; letter-spacing: 2px; }
   width: min(1000px, 96%);
   max-width: 1200px;
   position: relative;
-  height: 60vh;
-  min-height: 420px;
   display:flex;
   align-items:flex-end;
   justify-content:center;
