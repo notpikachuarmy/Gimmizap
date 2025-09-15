@@ -1,5 +1,22 @@
 const { Engine, Render, Runner, World, Bodies, Body, Composite } = Matter;
 
+// Datos predefinidos
+const fichaTotals = {
+  "susurros futuristas": 4,
+  "inspector de motes": 5,
+  "speed art": 8,
+  "himno del chat": 5,
+  "combo accesorio": 4
+};
+
+const listaFichasDiv = document.getElementById('lista-fichas');
+for (const name in fichaTotals) {
+  const p = document.createElement('p');
+  p.textContent = `${name}: ${fichaTotals[name]}`;
+  listaFichasDiv.appendChild(p);
+}
+
+// Setup canvas
 const canvas = document.getElementById('world');
 const cofreInner = document.getElementById('cofreInner');
 
@@ -15,17 +32,13 @@ const world = engine.world;
 const render = Render.create({
   canvas: canvas,
   engine: engine,
-  options: {
-    width: W,
-    height: H,
-    wireframes: false,
-    background: 'transparent'
-  }
+  options: { width: W, height: H, wireframes: false, background: 'transparent' }
 });
 
 Render.run(render);
 Runner.run(Runner.create(), engine);
 
+// Crear muros
 let walls = [];
 function createWalls() {
   walls.forEach(w => Composite.remove(world, w));
@@ -50,15 +63,6 @@ window.addEventListener('resize', () => {
   createWalls();
 });
 
-// Predefinir cantidad de fichas
-const fichaTotals = {
-  "susurros futuristas": 4,
-  "inspector de motes": 5,
-  "speed art": 8,
-  "himno del chat": 5,
-  "combo accesorio": 4
-};
-
 // Crear ficha
 function crearFicha(imgPath, x, y, size=64) {
   const body = Bodies.circle(x, y, size/2, {
@@ -73,11 +77,11 @@ function crearFicha(imgPath, x, y, size=64) {
       }
     }
   });
-  Body.rotate(body, (Math.random()-0.5) * 1.2);
+  Body.rotate(body, (Math.random()-0.5)*1.2);
   return body;
 }
 
-// Generar todas las fichas automáticamente
+// Generar fichas automáticamente
 function generarFichas() {
   let totalCount = 0;
   for (const name in fichaTotals) {
@@ -85,18 +89,20 @@ function generarFichas() {
     totalCount += cantidad;
     for (let i=0; i<cantidad; i++) {
       const rect = cofreInner.getBoundingClientRect();
-      const x = Math.random() * rect.width;
+      const x = Math.random()*rect.width;
       const y = -40 - Math.random()*100;
       const size = 48 + Math.random()*40;
       const body = crearFicha(`assets/${name}.png`, x, y, size);
       World.add(world, body);
     }
   }
-  // ajustar altura del cofre
+
+  // Ajustar altura del cofre según total
   const base = 320;
-  const extra = Math.min(1800, totalCount * 28);
-  cofreInner.style.height = Math.max(140, base + extra) + 'px';
-  setTimeout(()=> {
+  const extra = Math.min(1800, totalCount*28);
+  cofreInner.style.height = Math.max(140, base + extra)+'px';
+
+  setTimeout(()=>{
     W = cofreInner.clientWidth;
     H = cofreInner.clientHeight;
     canvas.width = W;
@@ -111,11 +117,9 @@ function generarFichas() {
 window.addEventListener('scroll', () => {
   const all = Composite.allBodies(world);
   all.forEach(b => {
-    if (!b.isStatic) {
-      Body.applyForce(b, b.position, { x: (Math.random()-0.5)*0.02, y: -0.03 });
-    }
+    if (!b.isStatic) Body.applyForce(b, b.position, {x:(Math.random()-0.5)*0.02, y:-0.03});
   });
 });
 
-// Ejecutar al cargar la página
 window.addEventListener('load', generarFichas);
+
