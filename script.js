@@ -2,8 +2,8 @@ const { Engine, Render, Runner, World, Bodies, Body, Composite } = Matter;
 
 // Datos predefinidos
 const fichaTotals = {
-  "susurros futuristas": 4,
-  "inspector de motes": 5,
+  "susurros futuristas": 5,
+  "inspector de motes": 4,
   "speed art": 8,
   "himno del chat": 5,
   "combo accesorio": 4
